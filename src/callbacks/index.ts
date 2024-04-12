@@ -1,23 +1,26 @@
 import { Context } from 'grammy';
 import { handleCategorySelection } from './categoryActions';
 import { handleProductSelection } from './productActions';
-// Import other handlers as necessary
+import { handleMainActionSelection } from './mainActions';
+import { handleReplyTypesActionSelection } from './replyTypesActions';
 
-export const handleCallbackQuery = (ctx: Context) => {
-    // ctx.callbackQuery.data contains the callback data
+export const handleCallbackQuery = async (ctx: Context) => {
     const data = ctx.callbackQuery?.data;
 
     if (!data) {
-        return ctx.reply("Sorry, I didn't understand that action.");
+        return await ctx.reply("Sorry, I didn't understand that action.");
     }
 
-    if (data.startsWith('category_')) {
-        return handleCategorySelection(ctx);
-    } else if (data.startsWith('product_')) {
-        return handleProductSelection(ctx);
+    switch (true) {
+        case data.startsWith('main_'):
+            return await handleMainActionSelection(ctx);
+        case data.startsWith('reply_'):
+            return await handleReplyTypesActionSelection(ctx);
+        case data.startsWith('category_'):
+            return await handleCategorySelection(ctx);
+        case data.startsWith('product_'):
+            return await handleProductSelection(ctx);
+        default:
+            return await ctx.reply("Sorry, I didn't understand that action.");
     }
-    // Add more conditions as necessary
-
-    // Default handler for unknown callback data
-    return ctx.reply("Sorry, I didn't understand that action.");
 };
