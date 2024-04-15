@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "node dist/bot.js",
+    "build": "tsc",
     "dev": "nodemon --exec ts-node src/bot.ts"
   },
   "devDependencies": {
