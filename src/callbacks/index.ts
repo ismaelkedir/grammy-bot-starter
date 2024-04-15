@@ -3,6 +3,7 @@ import { handleCategorySelection } from './categoryActions';
 import { handleProductSelection } from './productActions';
 import { handleMainActionSelection } from './mainActions';
 import { handleReplyTypesActionSelection } from './replyTypesActions';
+import { startCommand } from '../commands/start';
 
 export const handleCallbackQuery = async (ctx: Context) => {
     const data = ctx.callbackQuery?.data;
@@ -12,6 +13,9 @@ export const handleCallbackQuery = async (ctx: Context) => {
     }
 
     switch (true) {
+        case data.startsWith('start'):
+            await ctx.answerCallbackQuery('Starting the bot...');
+            return await startCommand(ctx);
         case data.startsWith('main_'):
             return await handleMainActionSelection(ctx);
         case data.startsWith('reply_'):
