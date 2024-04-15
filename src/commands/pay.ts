@@ -1,12 +1,10 @@
 import { Context } from "grammy";
 
-const CHAPA_TOKEN = process.env.CHAPA_TOKEN;
-
-export const payCommand = async (ctx: Context) => {
+export const payCommand = async (ctx: Context, paymentProviderToken: string) => {
     const invoiceTitle = "Test Product";
     const invoiceDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
     const invoicePayload = `${ctx.message?.from.id}-${ctx.me.id}-${ctx.message?.message_id}-${new Date().toISOString()}`;
-    const invoiceProviderToken = CHAPA_TOKEN ?? '';
+    const invoiceProviderToken = paymentProviderToken ?? '';
     const invoiceCurrency = "ETB";
     const invoiceItems = [{ label: "Test Product", amount: 100 * 100 }];
     const invoiceOptions = {
