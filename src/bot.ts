@@ -1,5 +1,5 @@
 import { config } from "dotenv";
-import { Bot } from "grammy";
+import { Bot, GrammyError, HttpError } from "grammy";
 import { startCommand } from "./commands/start";
 import { helpCommand } from "./commands/help";
 import { payCommand } from "./commands/pay";
@@ -33,7 +33,7 @@ bot.command("start", startCommand);
 bot.command("help", helpCommand);
 
 // Handle the /pay command.
-bot.command("pay", payCommand);
+bot.command("pay", (ctx) => payCommand(ctx, CHAPA_TOKEN));
 
 
 
@@ -49,7 +49,10 @@ bot.command("pay", payCommand);
 bot.on('callback_query:data', handleCallbackQuery)
 
 // Register middleware to handle users pressing buttons with that specific payload
-bot.callbackQuery('specific-button-payload', async (ctx) => { })
+bot.callbackQuery('specific-button-payload', async (ctx) => {
+    await ctx.answerCallbackQuery('specific-button-payload triggered');
+    await ctx.reply('You\'ve triggered `specific-button-payload` callback query');
+})
 
 
 
@@ -97,3 +100,23 @@ bot.on("pre_checkout_query", async (ctx) => {
  * This will connect to the Telegram servers and wait for messages.
  */
 bot.start();
+
+
+
+// =====================================================================
+/**
+ * Register a global error handler that will be called whenever an error occurs
+ */
+// =====================================================================
+bot.catch((err) => {
+    const ctx = err.ctx;
+    console.error(`Error while handling update ${ctx.update.update_id}:`);
+    const e = err.error;
+    if (e instanceof GrammyError) {
+        console.error("Error in request:", e.description);
+    } else if (e instanceof HttpError) {
+        console.error("Could not contact Telegram:", e);
+    } else {
+        console.error("Unknown error:", e);
+    }
+});
