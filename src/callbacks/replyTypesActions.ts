@@ -32,6 +32,12 @@ export const handleReplyTypesActionSelection = async (ctx: Context) => {
         case 'edit_last':
             await ctx.editMessageText('This message was edited by the bot');
             break;
+        case 'add_reaction':
+            await ctx.react('🥰');
+            break;
+        case 'delete_text':
+            await ctx.deleteMessage();
+            break;
         default:
             await ctx.reply('I do not know how to handle that action.');
     }
