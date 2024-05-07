@@ -2,7 +2,7 @@
   "scripts": {
     "start": "node dist/bot.js",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node src/bot.ts"
+    "dev": "nodemon --exec ts-node src/start.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

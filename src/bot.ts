@@ -25,7 +25,7 @@ if (!CHAPA_TOKEN) {
 }
 
 // Create an instance of the `Bot` class and pass your bot token to it.
-const bot = new Bot(`${BOT_TOKEN}`);
+export const bot = new Bot(`${BOT_TOKEN}`);
 
 // Handle the /start command.
 bot.command("start", startCommand);
@@ -109,15 +109,6 @@ bot.on("inline_query", async (ctx) => {
     const results = await handleInlineQuery(ctx);
     await ctx.answerInlineQuery(results);
 });
-
-
-
-/**
- * Now that you specified how to handle messages, you can start your bot.
- * This will connect to the Telegram servers and wait for messages.
- */
-bot.start();
-
 
 
 // =====================================================================
