@@ -6,6 +6,8 @@ export const mainMenuKeyboard = new InlineKeyboard()
         .row()
         .text('Reply Types', 'main_reply_types')
         .text('Share Contact', 'main_share_contact')
+        .row()
+        .webApp('Open mini app', 'https://ismaelkedir.com')
 
 export const mainMenuReplyKeyboard = new Keyboard()
         .text('Hi')
