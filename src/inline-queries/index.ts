@@ -1,6 +1,17 @@
 import { InlineQueryResult, InlineQueryResultArticle, InlineQueryResultPhoto } from "grammy/types";
+import { incrementUserCount } from "../utils/analytics";
+
+let activeUserId: number;
 
 export async function handleInlineQuery(ctx: any): Promise<InlineQueryResult[]> {
+    // Add user to the analytics database
+    if (ctx.from) {
+        if (ctx.from.id !== activeUserId) {
+            activeUserId = ctx.from.id
+            await incrementUserCount(activeUserId)
+        }
+    }
+
     const photoResults: InlineQueryResultPhoto[] = [
         {
             type: "photo",
